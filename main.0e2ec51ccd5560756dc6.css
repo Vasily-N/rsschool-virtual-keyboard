@@ -11,6 +11,9 @@
   height: calc(100vh - 532px);
   box-sizing: border-box;
 }
+#keyboard__textarea:focus-visible {
+  outline: black auto 0px;
+}
 
 #keyboard__board {
   display: flex;
@@ -84,4 +87,4 @@
   text-align: center;
 }
 
-/*# sourceMappingURL=main.b0ecf0fcf7c8593d1412.css.map*/
+/*# sourceMappingURL=main.0e2ec51ccd5560756dc6.css.map*/
