@@ -96,29 +96,36 @@ export default class TextAreaHelper {
 
   static arrowRight(textArea, shift) { TextAreaHelper.moveCursorRight(textArea, shift, 1); }
 
-  static getRowsSum = (textArea) => textArea.value.split('\r\n').reduce((p, c) => [...p, ...c.split('\n')], [])
-    .map((v) => v.length).reduce((p, c, i) => [...p, c + 1 + (i > 0 ? p[i - 1] : 0)], []);
+  static getRowsAndSum = (textArea) => {
+    const rowsLength = textArea.value.split('\r\n').reduce((p, c) => [...p, ...c.split('\n')], []).map((v) => v.length);
+    const rowsSum = rowsLength.reduce((p, c, i) => [...p, c + 1 + (i > 0 ? p[i - 1] : 0)], []);
+    return { rowsLength, rowsSum };
+  };
 
   static arrowUp(textArea, shift) {
-    const rowsSum = TextAreaHelper.getRowsSum(textArea);
+    const { rowsLength, rowsSum } = TextAreaHelper.getRowsAndSum(textArea);
     const selVal = (textArea.selectionDirection !== 'forward') ? textArea.selectionStart : textArea.selectionEnd;
     const rowId = rowsSum.findIndex((v) => v > selVal);
 
     if (rowId === 0) TextAreaHelper.moveCursorLeft(textArea, shift, Infinity);
     else {
-      const prevRowSum = rowsSum[rowId - 1];
       const prevPrevRowSum = rowId > 1 ? rowsSum[rowId - 2] : 0;
-      const pos = selVal - prevRowSum;
-      const prevRowLength = prevRowSum - prevPrevRowSum;
-      const newPos = Math.min(prevRowLength - 1, pos);
+      const pos = selVal - rowsSum[rowId - 1];
+      const prevRowLength = rowsLength[rowId - 1];
+      const newPos = Math.min(prevRowLength, pos);
       const newSelection = prevPrevRowSum + newPos;
-      const move = selVal - newSelection;
-      TextAreaHelper.moveCursorLeft(textArea, shift, move);
+      if (shift && textArea.selectionDirection === 'forward' && newSelection <= textArea.selectionStart
+            && textArea.selectionStart !== textArea.selectionEnd) {
+        textArea.setSelectionRange(textArea.selectionStart, textArea.selectionStart, 'none');
+      } else {
+        const move = selVal - newSelection;
+        TextAreaHelper.moveCursorLeft(textArea, shift, move);
+      }
     }
   }
 
   static arrowDown(textArea, shift) {
-    const rowsSum = TextAreaHelper.getRowsSum(textArea);
+    const { rowsLength, rowsSum } = TextAreaHelper.getRowsAndSum(textArea);
     const selVal = (textArea.selectionDirection !== 'backward') ? textArea.selectionEnd : textArea.selectionStart;
 
     const rowId = rowsSum.findIndex((v) => v > selVal);
@@ -126,11 +133,16 @@ export default class TextAreaHelper {
     if (rowId === rowsSum.length - 1) TextAreaHelper.moveCursorRight(textArea, shift, Infinity);
     else {
       const pos = selVal - (rowId > 0 ? rowsSum[rowId - 1] : 0);
-      const nextRowLength = rowsSum[rowId + 1] - rowsSum[rowId];
-      const newPos = Math.min(nextRowLength - 1, pos);
+      const nextRowLength = rowsLength[rowId + 1];
+      const newPos = Math.min(nextRowLength, pos);
       const newSelection = rowsSum[rowId] + newPos;
-      const move = newSelection - selVal;
-      TextAreaHelper.moveCursorRight(textArea, shift, move);
+      if (shift && textArea.selectionDirection === 'backward' && newSelection >= textArea.selectionEnd
+            && textArea.selectionStart !== textArea.selectionEnd) {
+        textArea.setSelectionRange(textArea.selectionEnd, textArea.selectionEnd, 'none');
+      } else {
+        const move = newSelection - selVal;
+        TextAreaHelper.moveCursorRight(textArea, shift, move);
+      }
     }
   }
 }
