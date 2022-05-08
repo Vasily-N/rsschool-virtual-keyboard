@@ -1,5 +1,5 @@
 export default class Keyboard {
-    #layout; #textArea; #keys; #langs; #langI; #shift; #caps;
+    #layout; #textArea; #keys; #langs; #langI; #shift; #caps; #mouseDown;
 
     static getChar (keys, key, lang, shift = false, caps = false) {
         const isCapsIgnored = (kLang, kDef) => {
@@ -195,16 +195,22 @@ export default class Keyboard {
     arrowUp = shift => Keyboard.arrowUp(this.#textArea, shift);
     arrowDown = shift => Keyboard.arrowDown(this.#textArea, shift);
 
+    static addActive (key) {
+        key.element.classList.add('active');
+    }
+
+    static removeActive (key) {
+        key.element.classList.remove('active');
+    }
+
     doShift (shiftKey, capsKey) {
         if (this.#shift == shiftKey && !capsKey) return;
         if (capsKey) {
             const capsNew = !this.#caps;
             const keyCaps = this.#keys['CapsLock'];
             if (keyCaps) {
-                if (capsNew)
-                    keyCaps.element.classList.add('active');
-                else
-                    keyCaps.element.classList.remove('active');
+                if (capsNew) Keyboard.addActive(keyCaps);
+                else Keyboard.removeActive(keyCaps);
             }
             this.#caps = capsNew;
         }
@@ -217,15 +223,14 @@ export default class Keyboard {
     #specialTextFunc = { 'Backspace': this.doBackspace, 'Delete': this.doDelete, 'Tab': this.doTab, 'Enter': this.doEnter, 
         'ArrowRight': this.arrowRight, 'ArrowLeft': this.arrowLeft, 'ArrowUp': this.arrowUp, 'ArrowDown': this.arrowDown };
 
-    keyDown (event) {
-        if (event.code != 'F5' && event.code != 'F12') event.preventDefault();
+    buttonDown (event) {
+        if (event.code != 'F5' && event.code != 'F12' && event.preventDefault) event.preventDefault();
         this.#textArea.focus();
         const key = this.#keys[event.code];
         if (!key) return; 
         if (event.ctrlKey && event.altKey) this.toggleLang(event.shiftKey);
         const caps = event.code == 'CapsLock';
-        if (!caps)
-            key.element.classList.add('active');
+        if (!caps) Keyboard.addActive(key);
         if (!event.repeat && (event.shiftKey || caps)) {
             this.doShift(event.shiftKey, caps);
         }
@@ -234,19 +239,36 @@ export default class Keyboard {
         else Keyboard.writeKey(this.#textArea, key.element.innerText);
     }
 
-    keyUp (event) {
-        event.preventDefault();
+    buttonUp (event) {
+        if (event.preventDefault) event.preventDefault();
         const key = this.#keys[event.code];
         if (!key) return; 
-        if (event.code !== 'CapsLock')
-            key.element.classList.remove('active');
+        if (event.code !== 'CapsLock') Keyboard.removeActive(key);
+
         if (event.code == 'ShiftLeft' || event.code == 'ShiftRight') {
             this.doShift(event.shiftKey, false);
-            if (this.#keys['ShiftLeft'])
-                this.#keys['ShiftLeft'].element.classList.remove('active');
-            if (this.#keys['ShiftRight'])
-                this.#keys['ShiftRight'].element.classList.remove('active');
+            if (this.#keys['ShiftLeft']) Keyboard.removeActive(this.#keys['ShiftLeft']);
+            if (this.#keys['ShiftRight']) Keyboard.removeActive(this.#keys['ShiftRight']);
         }
+    }
+
+    keyDown (event) {
+        this.buttonDown(event);
+    }
+
+    keyUp (event) {
+        this.buttonUp(event);
+    }
+
+    mouseDown (event) {
+        if (event.target.nodeName !== 'BUTTON') return;
+        this.#mouseDown = event.target.id;
+        this.buttonDown({...event, code: event.target.id});
+    }
+
+    mouseUp (event) {
+        this.buttonUp({...event, code: this.#mouseDown});
+        this.#textArea.focus();
     }
 
     constructor (design) {
@@ -308,5 +330,8 @@ export default class Keyboard {
 
         document.addEventListener('keyup', this.keyUp.bind(this));
         document.addEventListener('keydown', this.keyDown.bind(this));
+
+        document.addEventListener('mousedown', this.mouseDown.bind(this));
+        document.addEventListener('mouseup', this.mouseUp.bind(this));
     }
 }
