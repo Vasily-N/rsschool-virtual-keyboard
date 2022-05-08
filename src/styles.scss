@@ -1,10 +1,11 @@
 $buttonSize: 50px;
 $gap: 4px;
+$keyboardPad: 4px;
 $boardHeight: $buttonSize * 5 + $gap * 4;
 
 #wrapper {
     margin: auto;
-    width: $buttonSize * 14 + $gap * 13 * 2;
+    width: $buttonSize * 14 + (($gap - 2) * 2) * 13 + $keyboardPad;
 }
 
 #keyboard__textarea {
@@ -19,7 +20,7 @@ $boardHeight: $buttonSize * 5 + $gap * 4;
     flex-direction: column;
     height: $boardHeight;
     background: black;
-    padding: 4px;
+    padding: $keyboardPad;
 }
 
 .keyboard__row {
@@ -57,6 +58,10 @@ $boardHeight: $buttonSize * 5 + $gap * 4;
 .active {
     border-radius: 50px;
     background: #aa00aa;
+    &:hover {
+        background: #aa00aa;
+        cursor: pointer;
+    }
 }
 
 #CapsLock { width: $buttonSize * 1.333  ; }

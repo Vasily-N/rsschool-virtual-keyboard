@@ -10,13 +10,12 @@ const createTitle = () => {
     return pTitle;
 };
 
-const kb = new Keyboard(keyBoardDesign);
-
 const fragment = document.createDocumentFragment();
+
 const baseDIv = document.createElement('div');
 baseDIv.id = 'wrapper';
 baseDIv.appendChild(createTitle());
-baseDIv.appendChild(kb.getLayout());
+baseDIv.appendChild(new Keyboard(keyBoardDesign).getLayout());
 
 fragment.appendChild(baseDIv);
 
