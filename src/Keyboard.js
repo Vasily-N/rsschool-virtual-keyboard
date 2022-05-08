@@ -55,7 +55,7 @@ export default class Keyboard {
             textArea.value += char;
             return;
         }
-        const newPos = selStart + 1;
+        const newPos = selStart + (char == '\r\n' ? 1 : char.length);
         [textArea.value, textArea.selectionStart, textArea.selectionEnd] = 
         [taVal.slice(0, selStart) + char + taVal.slice(selStart, taVal.length), 
             newPos, newPos];
@@ -85,8 +85,8 @@ export default class Keyboard {
         Keyboard.deletePartOfTextArea(textArea, selStart, Math.min(length, selEnd == selStart ? selEnd + 1 : selEnd));
     }
 
-    static doTab (textArea) { Keyboard.addCharAtSelectionStart(textArea, '    '); } 
-    static doEnter (textArea) { Keyboard.addCharAtSelectionStart(textArea, '\r\n'); }
+    static doTab (textArea) { Keyboard.writeKey(textArea, '    '); } 
+    static doEnter (textArea) { Keyboard.writeKey(textArea, '\r\n'); }
 
     static moveCursorLeft (textArea, shift, move) {
         let [selStart, selEnd, direction] = [textArea.selectionStart, textArea.selectionEnd, textArea.selectionDirection];
@@ -236,7 +236,7 @@ export default class Keyboard {
         }
         if (Keyboard.#noEvent.includes(event.code)) return;
         if (this.#specialTextFunc[event.code]) this.#specialTextFunc[event.code](event.shiftKey);
-        else Keyboard.writeKey(this.#textArea, key.element.innerText);
+        else Keyboard.writeKey(this.#textArea, key.element.innerText.length > 0 ? key.element.innerText : key.element.innerHTML);
     }
 
     buttonUp (event) {
