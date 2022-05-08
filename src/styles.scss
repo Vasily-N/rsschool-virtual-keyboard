@@ -12,6 +12,10 @@ $boardHeight: $buttonSize * 5 + $gap * 4;
     width: 100%;
     height: calc(100vh - 2 * $boardHeight);
     box-sizing: border-box;
+
+    &:focus-visible {
+        outline: black auto 0px;
+    }
 }
 
 #keyboard__board {
