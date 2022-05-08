@@ -7,6 +7,7 @@
     "build": "webpack --mode development",
     "devServer": "webpack-dev-server --mode development"
   },
+  "browsersList": "> 0.25%, not dead",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Vasily-N/rsschool-virtual-keyboard.git"
@@ -18,6 +19,9 @@
   },
   "homepage": "https://github.com/Vasily-N/rsschool-virtual-keyboard#readme",
   "devDependencies": {
+    "@babel/core": "^7.17.10",
+    "@babel/preset-env": "^7.17.10",
+    "babel-loader": "^8.2.5",
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.7.1",
     "eslint": "^8.15.0",
