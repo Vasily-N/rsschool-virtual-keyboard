@@ -12,18 +12,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Keyboard)
 /* harmony export */ });
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
+/* harmony import */ var _TextAreaHelper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TextAreaHelper */ "./src/TextAreaHelper.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -59,6 +48,8 @@ function _classPrivateFieldGet(receiver, privateMap) { var descriptor = _classEx
 function _classExtractFieldDescriptor(receiver, privateMap, action) { if (!privateMap.has(receiver)) { throw new TypeError("attempted to " + action + " private field on non-instance"); } return privateMap.get(receiver); }
 
 function _classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
+
+
 
 var _layout = /*#__PURE__*/new WeakMap();
 
@@ -168,35 +159,35 @@ var Keyboard = /*#__PURE__*/function () {
     });
 
     _defineProperty(this, "doBackspace", function () {
-      return Keyboard.doBackspace(_classPrivateFieldGet(_this, _textArea));
+      return _TextAreaHelper__WEBPACK_IMPORTED_MODULE_0__["default"].doBackspace(_classPrivateFieldGet(_this, _textArea));
     });
 
     _defineProperty(this, "doDelete", function () {
-      return Keyboard.doDelete(_classPrivateFieldGet(_this, _textArea));
+      return _TextAreaHelper__WEBPACK_IMPORTED_MODULE_0__["default"].doDelete(_classPrivateFieldGet(_this, _textArea));
     });
 
     _defineProperty(this, "doTab", function () {
-      return Keyboard.doTab(_classPrivateFieldGet(_this, _textArea));
+      return _TextAreaHelper__WEBPACK_IMPORTED_MODULE_0__["default"].doTab(_classPrivateFieldGet(_this, _textArea));
     });
 
     _defineProperty(this, "doEnter", function () {
-      return Keyboard.doEnter(_classPrivateFieldGet(_this, _textArea));
+      return _TextAreaHelper__WEBPACK_IMPORTED_MODULE_0__["default"].doEnter(_classPrivateFieldGet(_this, _textArea));
     });
 
     _defineProperty(this, "arrowRight", function (shift) {
-      return Keyboard.arrowRight(_classPrivateFieldGet(_this, _textArea), shift);
+      return _TextAreaHelper__WEBPACK_IMPORTED_MODULE_0__["default"].arrowRight(_classPrivateFieldGet(_this, _textArea), shift);
     });
 
     _defineProperty(this, "arrowLeft", function (shift) {
-      return Keyboard.arrowLeft(_classPrivateFieldGet(_this, _textArea), shift);
+      return _TextAreaHelper__WEBPACK_IMPORTED_MODULE_0__["default"].arrowLeft(_classPrivateFieldGet(_this, _textArea), shift);
     });
 
     _defineProperty(this, "arrowUp", function (shift) {
-      return Keyboard.arrowUp(_classPrivateFieldGet(_this, _textArea), shift);
+      return _TextAreaHelper__WEBPACK_IMPORTED_MODULE_0__["default"].arrowUp(_classPrivateFieldGet(_this, _textArea), shift);
     });
 
     _defineProperty(this, "arrowDown", function (shift) {
-      return Keyboard.arrowDown(_classPrivateFieldGet(_this, _textArea), shift);
+      return _TextAreaHelper__WEBPACK_IMPORTED_MODULE_0__["default"].arrowDown(_classPrivateFieldGet(_this, _textArea), shift);
     });
 
     _classPrivateFieldInitSpec(this, _specialTextFunc, {
@@ -331,8 +322,8 @@ var Keyboard = /*#__PURE__*/function () {
 
       if (_classStaticPrivateFieldSpecGet(Keyboard, Keyboard, _noEvent).includes(event.code)) return;
       if (_classPrivateFieldGet(this, _specialTextFunc)[event.code]) _classPrivateFieldGet(this, _specialTextFunc)[event.code](event.shiftKey);else {
-        var el = key.element;
-        Keyboard.writeKey(_classPrivateFieldGet(this, _textArea), el.innerText.length > 0 ? el.innerText : el.innerHTML);
+        var e = key.element;
+        _TextAreaHelper__WEBPACK_IMPORTED_MODULE_0__["default"].writeKey(_classPrivateFieldGet(this, _textArea), e.innerText.length > 0 ? e.innerText : e.innerHTML);
       }
     }
   }, {
@@ -427,21 +418,79 @@ var Keyboard = /*#__PURE__*/function () {
       return null;
     }
   }, {
+    key: "addActive",
+    value: function addActive(key) {
+      key.element.classList.add('active');
+    }
+  }, {
+    key: "removeActive",
+    value: function removeActive(key) {
+      key.element.classList.remove('active');
+    }
+  }]);
+
+  return Keyboard;
+}();
+
+var _noEvent = {
+  writable: true,
+  value: ['CapsLock', 'ShiftLeft', 'ShiftRight', 'ControlLeft', 'ControlRight', 'AltLeft', 'AltRight', 'MetaLeft', 'MetaRight']
+};
+
+
+/***/ }),
+
+/***/ "./src/TextAreaHelper.js":
+/*!*******************************!*\
+  !*** ./src/TextAreaHelper.js ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ TextAreaHelper)
+/* harmony export */ });
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var TextAreaHelper = /*#__PURE__*/function () {
+  function TextAreaHelper() {
+    _classCallCheck(this, TextAreaHelper);
+  }
+
+  _createClass(TextAreaHelper, null, [{
     key: "addCharAtSelectionStart",
-    value: function addCharAtSelectionStart(textArea, _char2) {
+    value: function addCharAtSelectionStart(textArea, _char) {
       var selStart = textArea.selectionStart;
-      var newPos = selStart + (_char2 === '\r\n' ? 1 : _char2.length);
-      textArea.setRangeText(_char2);
+      var newPos = selStart + (_char === '\r\n' ? 1 : _char.length);
+      textArea.setRangeText(_char);
       textArea.setSelectionRange(newPos, newPos, 'none');
     }
   }, {
     key: "writeKey",
-    value: function writeKey(textArea, _char3) {
-      var _ref4 = [textArea.selectionStart, textArea.selectionEnd],
-          selStart = _ref4[0],
-          selEnd = _ref4[1];
+    value: function writeKey(textArea, _char2) {
+      var _ref = [textArea.selectionStart, textArea.selectionEnd],
+          selStart = _ref[0],
+          selEnd = _ref[1];
       if (selStart !== selEnd) textArea.setRangeText('');
-      Keyboard.addCharAtSelectionStart(textArea, _char3);
+      TextAreaHelper.addCharAtSelectionStart(textArea, _char2);
     }
   }, {
     key: "deletePartOfTextArea",
@@ -452,9 +501,9 @@ var Keyboard = /*#__PURE__*/function () {
   }, {
     key: "doBackspace",
     value: function doBackspace(textArea) {
-      var _ref5 = [textArea.selectionStart, textArea.selectionEnd],
-          selStart = _ref5[0],
-          selEnd = _ref5[1];
+      var _ref2 = [textArea.selectionStart, textArea.selectionEnd],
+          selStart = _ref2[0],
+          selEnd = _ref2[1];
       if (selEnd < 1) return;
 
       if (selEnd === selStart) {
@@ -466,9 +515,9 @@ var Keyboard = /*#__PURE__*/function () {
   }, {
     key: "doDelete",
     value: function doDelete(textArea) {
-      var _ref6 = [textArea.selectionStart, textArea.selectionEnd],
-          selStart = _ref6[0],
-          selEnd = _ref6[1];
+      var _ref3 = [textArea.selectionStart, textArea.selectionEnd],
+          selStart = _ref3[0],
+          selEnd = _ref3[1];
       if (selStart >= textArea.value.length) return;
 
       if (selEnd === selStart) {
@@ -480,20 +529,20 @@ var Keyboard = /*#__PURE__*/function () {
   }, {
     key: "doTab",
     value: function doTab(textArea) {
-      Keyboard.writeKey(textArea, '    ');
+      TextAreaHelper.writeKey(textArea, '    ');
     }
   }, {
     key: "doEnter",
     value: function doEnter(textArea) {
-      Keyboard.writeKey(textArea, '\r\n');
+      TextAreaHelper.writeKey(textArea, '\r\n');
     }
   }, {
     key: "moveCursorLeft",
     value: function moveCursorLeft(textArea, shift, move) {
-      var _ref7 = [textArea.selectionStart, textArea.selectionEnd, textArea.selectionDirection],
-          selStart = _ref7[0],
-          selEnd = _ref7[1],
-          direction = _ref7[2];
+      var _ref4 = [textArea.selectionStart, textArea.selectionEnd, textArea.selectionDirection],
+          selStart = _ref4[0],
+          selEnd = _ref4[1],
+          direction = _ref4[2];
 
       if (selStart === selEnd) {
         direction = 'none';
@@ -508,9 +557,9 @@ var Keyboard = /*#__PURE__*/function () {
         }
 
         if (selEnd < selStart) {
-          var _ref8 = [selEnd, selStart];
-          selStart = _ref8[0];
-          selEnd = _ref8[1];
+          var _ref5 = [selEnd, selStart];
+          selStart = _ref5[0];
+          selEnd = _ref5[1];
           direction = 'backward';
         }
       } else {
@@ -527,10 +576,10 @@ var Keyboard = /*#__PURE__*/function () {
   }, {
     key: "moveCursorRight",
     value: function moveCursorRight(textArea, shift, move) {
-      var _ref9 = [textArea.selectionStart, textArea.selectionEnd, textArea.selectionDirection],
-          selStart = _ref9[0],
-          selEnd = _ref9[1],
-          direction = _ref9[2];
+      var _ref6 = [textArea.selectionStart, textArea.selectionEnd, textArea.selectionDirection],
+          selStart = _ref6[0],
+          selEnd = _ref6[1],
+          direction = _ref6[2];
 
       if (selStart === selEnd) {
         direction = 'none';
@@ -545,9 +594,9 @@ var Keyboard = /*#__PURE__*/function () {
         }
 
         if (selEnd < selStart) {
-          var _ref10 = [selEnd, selStart];
-          selStart = _ref10[0];
-          selEnd = _ref10[1];
+          var _ref7 = [selEnd, selStart];
+          selStart = _ref7[0];
+          selEnd = _ref7[1];
           direction = 'forward';
         }
       } else {
@@ -564,22 +613,22 @@ var Keyboard = /*#__PURE__*/function () {
   }, {
     key: "arrowLeft",
     value: function arrowLeft(textArea, shift) {
-      Keyboard.moveCursorLeft(textArea, shift, 1);
+      TextAreaHelper.moveCursorLeft(textArea, shift, 1);
     }
   }, {
     key: "arrowRight",
     value: function arrowRight(textArea, shift) {
-      Keyboard.moveCursorRight(textArea, shift, 1);
+      TextAreaHelper.moveCursorRight(textArea, shift, 1);
     }
   }, {
     key: "arrowUp",
     value: function arrowUp(textArea, shift) {
-      var rowsSum = Keyboard.getRowsSum(textArea);
+      var rowsSum = TextAreaHelper.getRowsSum(textArea);
       var selVal = textArea.selectionDirection !== 'forward' ? textArea.selectionStart : textArea.selectionEnd;
       var rowId = rowsSum.findIndex(function (v) {
         return v > selVal;
       });
-      if (rowId === 0) Keyboard.moveCursorLeft(textArea, shift, Infinity);else {
+      if (rowId === 0) TextAreaHelper.moveCursorLeft(textArea, shift, Infinity);else {
         var prevRowSum = rowsSum[rowId - 1];
         var prevPrevRowSum = rowId > 1 ? rowsSum[rowId - 2] : 0;
         var pos = selVal - prevRowSum;
@@ -587,42 +636,32 @@ var Keyboard = /*#__PURE__*/function () {
         var newPos = Math.min(prevRowLength - 1, pos);
         var newSelection = prevPrevRowSum + newPos;
         var move = selVal - newSelection;
-        Keyboard.moveCursorLeft(textArea, shift, move);
+        TextAreaHelper.moveCursorLeft(textArea, shift, move);
       }
     }
   }, {
     key: "arrowDown",
     value: function arrowDown(textArea, shift) {
-      var rowsSum = Keyboard.getRowsSum(textArea);
+      var rowsSum = TextAreaHelper.getRowsSum(textArea);
       var selVal = textArea.selectionDirection !== 'backward' ? textArea.selectionEnd : textArea.selectionStart;
       var rowId = rowsSum.findIndex(function (v) {
         return v > selVal;
       });
-      if (rowId === rowsSum.length - 1) Keyboard.moveCursorRight(textArea, shift, Infinity);else {
+      if (rowId === rowsSum.length - 1) TextAreaHelper.moveCursorRight(textArea, shift, Infinity);else {
         var pos = selVal - (rowId > 0 ? rowsSum[rowId - 1] : 0);
         var nextRowLength = rowsSum[rowId + 1] - rowsSum[rowId];
         var newPos = Math.min(nextRowLength - 1, pos);
         var newSelection = rowsSum[rowId] + newPos;
         var move = newSelection - selVal;
-        Keyboard.moveCursorRight(textArea, shift, move);
+        TextAreaHelper.moveCursorRight(textArea, shift, move);
       }
-    }
-  }, {
-    key: "addActive",
-    value: function addActive(key) {
-      key.element.classList.add('active');
-    }
-  }, {
-    key: "removeActive",
-    value: function removeActive(key) {
-      key.element.classList.remove('active');
     }
   }]);
 
-  return Keyboard;
+  return TextAreaHelper;
 }();
 
-_defineProperty(Keyboard, "getRowsSum", function (textArea) {
+_defineProperty(TextAreaHelper, "getRowsSum", function (textArea) {
   return textArea.value.split('\r\n').reduce(function (p, c) {
     return [].concat(_toConsumableArray(p), _toConsumableArray(c.split('\n')));
   }, []).map(function (v) {
@@ -632,10 +671,6 @@ _defineProperty(Keyboard, "getRowsSum", function (textArea) {
   }, []);
 });
 
-var _noEvent = {
-  writable: true,
-  value: ['CapsLock', 'ShiftLeft', 'ShiftRight', 'ControlLeft', 'ControlRight', 'AltLeft', 'AltRight', 'MetaLeft', 'MetaRight']
-};
 
 
 /***/ }),
@@ -751,4 +786,4 @@ document.body.appendChild(fragment);
 
 /******/ })()
 ;
-//# sourceMappingURL=main.b6d9c2ac8d8e6c318303.js.map
+//# sourceMappingURL=main.dc6e13b81824f6a40b0e.js.map
