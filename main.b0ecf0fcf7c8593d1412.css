@@ -1,0 +1,87 @@
+/*!**************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[0].use[2]!./src/styles.scss ***!
+  \**************************************************************************************************************************************/
+#wrapper {
+  margin: auto;
+  width: 756px;
+}
+
+#keyboard__textarea {
+  width: 100%;
+  height: calc(100vh - 532px);
+  box-sizing: border-box;
+}
+
+#keyboard__board {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 266px;
+  background: black;
+  padding: 4px;
+}
+
+.keyboard__row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.keyboard__key {
+  width: 50px;
+  height: 50px;
+  padding: 0px;
+  border: 0px;
+  border-radius: 3px;
+  color: #ffffff;
+  background: #444444;
+  transition: border-radius 0.5s, background-color 0.5s;
+}
+.keyboard__key:hover {
+  background: #aa60aa;
+  cursor: pointer;
+}
+
+.special {
+  font-weight: 600;
+  background-color: #222222;
+}
+
+.keyboard__empty {
+  width: 50px;
+  height: 50px;
+}
+
+.active {
+  border-radius: 50px;
+  background: #aa00aa;
+}
+.active:hover {
+  background: #aa00aa;
+  cursor: pointer;
+}
+
+#CapsLock {
+  width: 66.65px;
+}
+
+#Enter {
+  width: 83.3px;
+}
+
+#ShiftLeft {
+  width: 83.3px;
+}
+
+#ShiftRight {
+  width: 66.65px;
+}
+
+#Space {
+  width: 212px;
+}
+
+.text {
+  text-align: center;
+}
+
+/*# sourceMappingURL=main.b0ecf0fcf7c8593d1412.css.map*/
