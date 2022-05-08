@@ -623,37 +623,52 @@ var TextAreaHelper = /*#__PURE__*/function () {
   }, {
     key: "arrowUp",
     value: function arrowUp(textArea, shift) {
-      var rowsSum = TextAreaHelper.getRowsSum(textArea);
+      var _TextAreaHelper$getRo = TextAreaHelper.getRowsAndSum(textArea),
+          rowsLength = _TextAreaHelper$getRo.rowsLength,
+          rowsSum = _TextAreaHelper$getRo.rowsSum;
+
       var selVal = textArea.selectionDirection !== 'forward' ? textArea.selectionStart : textArea.selectionEnd;
       var rowId = rowsSum.findIndex(function (v) {
         return v > selVal;
       });
       if (rowId === 0) TextAreaHelper.moveCursorLeft(textArea, shift, Infinity);else {
-        var prevRowSum = rowsSum[rowId - 1];
         var prevPrevRowSum = rowId > 1 ? rowsSum[rowId - 2] : 0;
-        var pos = selVal - prevRowSum;
-        var prevRowLength = prevRowSum - prevPrevRowSum;
-        var newPos = Math.min(prevRowLength - 1, pos);
+        var pos = selVal - rowsSum[rowId - 1];
+        var prevRowLength = rowsLength[rowId - 1];
+        var newPos = Math.min(prevRowLength, pos);
         var newSelection = prevPrevRowSum + newPos;
-        var move = selVal - newSelection;
-        TextAreaHelper.moveCursorLeft(textArea, shift, move);
+
+        if (shift && textArea.selectionDirection === 'forward' && newSelection <= textArea.selectionStart && textArea.selectionStart !== textArea.selectionEnd) {
+          textArea.setSelectionRange(textArea.selectionStart, textArea.selectionStart, 'none');
+        } else {
+          var move = selVal - newSelection;
+          TextAreaHelper.moveCursorLeft(textArea, shift, move);
+        }
       }
     }
   }, {
     key: "arrowDown",
     value: function arrowDown(textArea, shift) {
-      var rowsSum = TextAreaHelper.getRowsSum(textArea);
+      var _TextAreaHelper$getRo2 = TextAreaHelper.getRowsAndSum(textArea),
+          rowsLength = _TextAreaHelper$getRo2.rowsLength,
+          rowsSum = _TextAreaHelper$getRo2.rowsSum;
+
       var selVal = textArea.selectionDirection !== 'backward' ? textArea.selectionEnd : textArea.selectionStart;
       var rowId = rowsSum.findIndex(function (v) {
         return v > selVal;
       });
       if (rowId === rowsSum.length - 1) TextAreaHelper.moveCursorRight(textArea, shift, Infinity);else {
         var pos = selVal - (rowId > 0 ? rowsSum[rowId - 1] : 0);
-        var nextRowLength = rowsSum[rowId + 1] - rowsSum[rowId];
-        var newPos = Math.min(nextRowLength - 1, pos);
+        var nextRowLength = rowsLength[rowId + 1];
+        var newPos = Math.min(nextRowLength, pos);
         var newSelection = rowsSum[rowId] + newPos;
-        var move = newSelection - selVal;
-        TextAreaHelper.moveCursorRight(textArea, shift, move);
+
+        if (shift && textArea.selectionDirection === 'backward' && newSelection >= textArea.selectionEnd && textArea.selectionStart !== textArea.selectionEnd) {
+          textArea.setSelectionRange(textArea.selectionEnd, textArea.selectionEnd, 'none');
+        } else {
+          var move = newSelection - selVal;
+          TextAreaHelper.moveCursorRight(textArea, shift, move);
+        }
       }
     }
   }]);
@@ -661,14 +676,19 @@ var TextAreaHelper = /*#__PURE__*/function () {
   return TextAreaHelper;
 }();
 
-_defineProperty(TextAreaHelper, "getRowsSum", function (textArea) {
-  return textArea.value.split('\r\n').reduce(function (p, c) {
+_defineProperty(TextAreaHelper, "getRowsAndSum", function (textArea) {
+  var rowsLength = textArea.value.split('\r\n').reduce(function (p, c) {
     return [].concat(_toConsumableArray(p), _toConsumableArray(c.split('\n')));
   }, []).map(function (v) {
     return v.length;
-  }).reduce(function (p, c, i) {
+  });
+  var rowsSum = rowsLength.reduce(function (p, c, i) {
     return [].concat(_toConsumableArray(p), [c + 1 + (i > 0 ? p[i - 1] : 0)]);
   }, []);
+  return {
+    rowsLength: rowsLength,
+    rowsSum: rowsSum
+  };
 });
 
 
@@ -786,4 +806,4 @@ document.body.appendChild(fragment);
 
 /******/ })()
 ;
-//# sourceMappingURL=main.dc6e13b81824f6a40b0e.js.map
+//# sourceMappingURL=main.9b2fded5fe263fe196b3.js.map
