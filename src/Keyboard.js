@@ -1,4 +1,4 @@
-import TextAreaHelper from "./TextAreaHelper";
+import TextAreaHelper from './TextAreaHelper';
 
 export default class Keyboard {
   #layout;
@@ -57,9 +57,6 @@ export default class Keyboard {
     localStorage.lang = this.#langs[this.#langI];
     this.#redraw(shiftKey);
   };
-
-
-
 
   doBackspace = () => TextAreaHelper.doBackspace(this.#textArea);
 
