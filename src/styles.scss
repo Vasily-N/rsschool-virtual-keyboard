@@ -1,0 +1,79 @@
+$buttonSize: 50px;
+$gap: 4px;
+$keyboardPad: 4px;
+$boardHeight: $buttonSize * 5 + $gap * 4;
+
+#wrapper {
+    margin: auto;
+    width: $buttonSize * 14 + (($gap - 2) * 2) * 13 + $keyboardPad;
+}
+
+#keyboard__textarea {
+    width: 100%;
+    height: calc(100vh - 2 * $boardHeight);
+    box-sizing: border-box;
+
+    &:focus-visible {
+        outline: black auto 0px;
+    }
+}
+
+#keyboard__board {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    height: $boardHeight;
+    background: black;
+    padding: $keyboardPad;
+}
+
+.keyboard__row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.keyboard__key {
+    width: $buttonSize;
+    height: $buttonSize;
+    padding: 0px;
+    border: 0px;
+    border-radius: 3px;
+    color: #ffffff;
+    background: #444444;
+
+    transition: border-radius 0.5s, background-color 0.5s;
+
+    &:hover {
+        background: #aa60aa;
+        cursor: pointer;
+    }
+}
+
+.special {
+    font-weight: 600;
+    background-color: #222222;
+}
+
+.keyboard__empty {
+    width: $buttonSize;
+    height: $buttonSize;
+}
+
+.active {
+    border-radius: 50px;
+    background: #aa00aa;
+    &:hover {
+        background: #aa00aa;
+        cursor: pointer;
+    }
+}
+
+#CapsLock { width: $buttonSize * 1.333  ; }
+#Enter { width: $buttonSize * 1.666; }
+#ShiftLeft { width: $buttonSize * 1.666; }
+#ShiftRight { width: $buttonSize * 1.333; }
+#Space { width: $buttonSize * 4 + 4px * 3; }
+
+.text {
+    text-align: center;
+}
